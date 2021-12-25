@@ -4,11 +4,19 @@ winner = None
 current_player = "X"
 correct_position = True
 
+
 # TODO board
 # a dict type is used to gather the positional inputs of the players.
-the_board = {1: " ", 2: " ", 3: " ",
-             4: " ", 5: " ", 6: " ",
-             7: " ", 8: " ", 9: " "}
+class Board:
+    def __init__(self):
+        pass
+
+    the_board = {1: " ", 2: " ", 3: " ",
+                 4: " ", 5: " ", 6: " ",
+                 7: " ", 8: " ", 9: " "}
+
+
+game_board = Board
 
 
 # TODO display board
@@ -30,13 +38,13 @@ def board_display(board):
     print("\n")
 
 
-# board_display(the_board)
+# board_display(game_board.the_board)
 
 
 # TODO play the game
 def play_game():
     # display the initial board:
-    board_display(the_board)
+    board_display(game_board.the_board)
 
     # a while loop is used since this should run until one condition isn't satisfied anymore, it's easier to coed this
     # than a for loop imo.
@@ -66,17 +74,17 @@ def handle_turn(player_symbol):
     position = int(input("Position: "))
 
     # checks for the validity of the input
-    while position not in [x for x in range(1,10,1)]:
+    while position not in [x for x in range(1, 10, 1)]:
         position = int(input("Invalid position. Position: "))
 
     # checks if the position is already taken:
-    if the_board[position] == " ":
+    if game_board.the_board[position] == " ":
         # displaying the choice on the board:
-        the_board[position] = player_symbol
+        game_board.the_board[position] = player_symbol
         correct_position = True
     else:
         correct_position = False
-    board_display(the_board)
+    board_display(game_board.the_board)
     return
 
 
@@ -111,9 +119,9 @@ def check_rows():
     global still_going
 
     # checks if the row is True but also doesn't mislabel the empty rows as a winning situation.
-    row_1 = the_board[1] == the_board[2] == the_board[3] != " "
-    row_2 = the_board[4] == the_board[5] == the_board[6] != " "
-    row_3 = the_board[7] == the_board[8] == the_board[9] != " "
+    row_1 = game_board.the_board[1] == game_board.the_board[2] == game_board.the_board[3] != " "
+    row_2 = game_board.the_board[4] == game_board.the_board[5] == game_board.the_board[6] != " "
+    row_3 = game_board.the_board[7] == game_board.the_board[8] == game_board.the_board[9] != " "
 
     # stops the game if someone one!
     if row_1 or row_2 or row_3:
@@ -121,11 +129,11 @@ def check_rows():
 
     # checks and returns who won!
     if row_1:
-        return the_board[1]
+        return game_board.the_board[1]
     elif row_2:
-        return the_board[4]
+        return game_board.the_board[4]
     elif row_3:
-        return the_board[7]
+        return game_board.the_board[7]
     return
 
 
@@ -134,9 +142,9 @@ def check_columns():
     global still_going
 
     # checks if the columns is True but also doesn't mislabel the empty rows as a winning situation.
-    col_1 = the_board[1] == the_board[4] == the_board[7] != " "
-    col_2 = the_board[2] == the_board[5] == the_board[8] != " "
-    col_3 = the_board[3] == the_board[6] == the_board[9] != " "
+    col_1 = game_board.the_board[1] == game_board.the_board[4] == game_board.the_board[7] != " "
+    col_2 = game_board.the_board[2] == game_board.the_board[5] == game_board.the_board[8] != " "
+    col_3 = game_board.the_board[3] == game_board.the_board[6] == game_board.the_board[9] != " "
 
     # stops the game if someone one!
     if col_1 or col_2 or col_3:
@@ -144,11 +152,11 @@ def check_columns():
 
     # checks and returns who won!
     if col_1:
-        return the_board[1]
+        return game_board.the_board[1]
     elif col_2:
-        return the_board[2]
+        return game_board.the_board[2]
     elif col_3:
-        return the_board[3]
+        return game_board.the_board[3]
     return
 
 
@@ -157,8 +165,8 @@ def check_diagonals():
     global still_going
 
     # checks if the diagonal is True but also doesn't mislabel the empty rows as a winning situation.
-    diagonal_1 = the_board[1] == the_board[5] == the_board[9] != " "
-    diagonal_2 = the_board[3] == the_board[5] == the_board[7] != " "
+    diagonal_1 = game_board.the_board[1] == game_board.the_board[5] == game_board.the_board[9] != " "
+    diagonal_2 = game_board.the_board[3] == game_board.the_board[5] == game_board.the_board[7] != " "
 
     # stops the game if someone one!
     if diagonal_1 or diagonal_2:
@@ -166,9 +174,9 @@ def check_diagonals():
 
     # checks and returns who won!
     if diagonal_1:
-        return the_board[1]
+        return game_board.the_board[1]
     elif diagonal_2:
-        return the_board[3]
+        return game_board.the_board[3]
     return
 
 
@@ -176,7 +184,7 @@ def check_diagonals():
 # if not a win and the game is over
 def check_tie():
     global still_going
-    if " " not in the_board.values():
+    if " " not in game_board.the_board.values():
         still_going = False
     return
 
