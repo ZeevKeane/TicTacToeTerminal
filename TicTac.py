@@ -61,7 +61,13 @@ def play_game():
 # takes input of a position to place either x or o depending on which player's turn it is
 def handle_turn(player_symbol):
     global correct_position
+
+    print("Player {}'s turn".format(player_symbol))
     position = int(input("Position: "))
+
+    # checks for the validity of the input
+    while position not in [x for x in range(1,10,1)]:
+        position = int(input("Invalid position. Position: "))
 
     # checks if the position is already taken:
     if the_board[position] == " ":
