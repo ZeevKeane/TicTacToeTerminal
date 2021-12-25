@@ -73,12 +73,20 @@ def check_gameover():
 def check_win():
     global winner
 
-    if check_rows() or check_columns() or check_diagonals():
-        winner = True
+    # types of winner:
+    r_winner = check_rows()
+    c_winner = check_columns()
+    d_winner = check_diagonals()
+
+    if check_rows():
+        winner = r_winner
+    elif check_columns():
+        winner = c_winner
+    elif check_diagonals():
+        winner = d_winner
     else:
         winner = None
-    return
-    
+
 
 # TODO check rows
 def check_rows():
