@@ -2,6 +2,7 @@
 still_going = True
 winner = None
 current_player = "X"
+correct_position = True
 
 # TODO board
 # a dict type is used to gather the positional inputs of the players.
@@ -40,8 +41,12 @@ def play_game():
     # a while loop is used since this should run until one condition isn't satisfied anymore, it's easier to coed this
     # than a for loop imo.
     while still_going:
-        # calls upon handle_turn to get the position the player wants to place x or o:
         handle_turn(current_player)
+        # calls upon handle_turn to get the position the player wants to place x or o:
+        while not correct_position:
+            print("Please try another position, this position is already taken")
+            handle_turn(current_player)
+
         check_gameover()
         change_turns()
 
@@ -55,11 +60,18 @@ def play_game():
 
 # takes input of a position to place either x or o depending on which player's turn it is
 def handle_turn(player_symbol):
+    global correct_position
     position = int(input("Position: "))
 
-    # displaying the choice on the board:
-    the_board[position] = player_symbol
+    # checks if the position is already taken:
+    if the_board[position] == " ":
+        # displaying the choice on the board:
+        the_board[position] = player_symbol
+        correct_position = True
+    else:
+        correct_position = False
     board_display(the_board)
+    return
 
 
 def check_gameover():
@@ -157,12 +169,21 @@ def check_diagonals():
 # TODO check tie
 # if not a win and the game is over
 def check_tie():
+    global still_going
+    if " " not in the_board.values():
+        still_going = False
     return
 
 
 # TODO flip player
 # changes/flips from one player to another, checks x or o and flips it
 def change_turns():
+    global current_player, correct_position
+    if correct_position:
+        if current_player == "X":
+            current_player = "O"
+        else:
+            current_player = "X"
     return
 
 
